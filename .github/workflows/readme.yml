@@ -14,4 +14,4 @@ jobs:
       - name: Sync to ReadMe
         uses: readmeio/rdme@7.3.0
         with:
-          rdme: openapi openapi.json --key={{ env.FERN_README_TOKEN }} --id=tpa-stream
+          rdme: openapi openapi.json --key=${{ env.FERN_README_TOKEN }} --id=tpa-stream
