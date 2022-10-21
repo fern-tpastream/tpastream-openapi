@@ -2,13 +2,13 @@
   "openapi": "3.0.1",
   "info": {
     "title": "api",
-    "version": "0.0.7"
+    "version": "0.0.8"
   },
   "paths": {
     "/claims/": {
       "get": {
         "description": "Return all of the claims for an Employer.",
-        "operationId": "getAll",
+        "operationId": "getAllClaims",
         "tags": [
           "ClaimsService"
         ],
@@ -54,7 +54,7 @@
     "/claims/{claim_medical_id}": {
       "post": {
         "description": "Return a claim by Claim Medical Id.",
-        "operationId": "get",
+        "operationId": "getClaim",
         "tags": [
           "ClaimsService"
         ],
@@ -90,7 +90,7 @@
     "/employer/{employer_id}/member": {
       "get": {
         "description": "Return all of the accounts for an Employer.",
-        "operationId": "getAll",
+        "operationId": "getAllEmployers",
         "tags": [
           "EmployersService"
         ],
