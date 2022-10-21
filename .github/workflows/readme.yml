@@ -12,4 +12,4 @@ jobs:
       - name: Sync to ReadMe
         uses: readmeio/rdme@7.3.0
         with:
-          rdme: openapi [openapi.json] --key=rdme_xn8s9h6ae71f48bd3bc30aacac06c076f804ba545044be80f168ff85a3ef9feeecda70 --id=API_DEFINITION_ID
+          rdme: openapi openapi.json --key=rdme_xn8s9h6ae71f48bd3bc30aacac06c076f804ba545044be80f168ff85a3ef9feeecda70 --id=API_DEFINITION_ID
