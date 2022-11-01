@@ -53,8 +53,8 @@ paths:
       security: *ref_0
   /employer/{employer_id}/member:
     get:
-      description: Return all of the accounts for an Employer.
-      operationId: EmployersService.getAllEmployers
+      description: Return all of the accounts for the members of an Employer's.
+      operationId: EmployersService.getAllMembers
       tags:
         - EmployersService
       parameters:
@@ -81,7 +81,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployerAllAccounts'
+                $ref: '#/components/schemas/EmployerMemberPagination'
       security: *ref_0
   /public_key/gpg:
     post:
@@ -290,7 +290,7 @@ components:
         members:
           type: array
           items:
-            $ref: '#/components/schemas/MemberMember'
+            $ref: '#/components/schemas/EmployerMember'
         modifieddate:
           type: string
           format: date-time
@@ -500,20 +500,22 @@ components:
       required:
         - has_next
         - has_prev
-    EmployerAllAccounts:
+    EmployerMemberPagination:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/EmployerAccount'
+          $ref: '#/components/schemas/EmployerMember'
       required:
         - data
       allOf:
         - $ref: '#/components/schemas/CommonsPageable'
-    EmployerAccount:
+    EmployerMember1:
       type: object
       properties:
         accounts:
-          $ref: '#/components/schemas/EmployerAccounts'
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployerAccount'
         address:
           type: string
         alegeus_key:
@@ -524,15 +526,60 @@ components:
           type: string
           format: date-time
         archivedby:
-          type: string
+          $ref: '#/components/schemas/EmployerArchivedBy'
         can_make_claim_requests:
           type: boolean
+        can_use_portal:
+          type: boolean
+        createddate:
+          type: string
+          format: date-time
+        date_of_birth:
+          type: string
+        dependents:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployerDependent'
+        email:
+          type: string
+        employer:
+          $ref: '#/components/schemas/EmployerEmployer'
+        first_name:
+          type: string
+        first_name_derived:
+          type: string
+        full_name_derived:
+          type: string
+        gender:
+          type: string
+        hire_term_daterange:
+          $ref: '#/components/schemas/EmployerHireTermDaterange'
+        id:
+          type: integer
+        last_name:
+          type: string
+        last_name_derived:
+          type: string
+        modifieddate:
+          type: string
+          format: date-time
+        phone_home:
+          type: string
+        phone_mobile:
+          type: string
+        ssn:
+          type: string
+        tenant:
+          $ref: '#/components/schemas/EmployerTenant'
+        unread_count:
+          type: integer
+        vendor_members:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployerVendorMember'
       required:
-        - accounts
-        - archived
-        - archived_date
-        - archivedby
-    EmployerAccounts:
+        - vendor_members
+    EmployerAccount:
       type: object
       properties:
         id:
@@ -542,6 +589,13 @@ components:
       required:
         - id
         - name
+    EmployerArchivedBy:
+      type: object
+      properties:
+        email:
+          type: string
+        id:
+          type: integer
     EmployerEmployer:
       type: object
       properties:
@@ -551,7 +605,190 @@ components:
           type: string
         reimbursement_policy: {}
       required:
+        - name
         - reimbursement_policy
+    EmployerEmployer1:
+      type: object
+      properties:
+        archived:
+          type: boolean
+        eligible_payers:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployerPayer'
+        email_automation:
+          type: boolean
+        employer_id:
+          type: integer
+        id:
+          type: integer
+        name:
+          type: string
+        payers:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployerPayer1'
+        slug:
+          type: string
+        support_email_derived:
+          type: string
+        support_phone_derived:
+          type: string
+        support_logo_derived:
+          type: string
+        support_name_derived:
+          type: string
+      required:
+        - name
+        - payers
+    EmployerPayer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        short_name:
+          type: string
+      required:
+        - name
+    EmployerPayer1:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        retriever:
+          type: string
+        short_name:
+          type: string
+      required:
+        - name
+        - retriever
+    EmployerDependent:
+      type: object
+      properties:
+        address:
+          type: string
+        alegeus_key:
+          type: string
+        createddate:
+          type: string
+          format: date-time
+        date_of_birth:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        gender:
+          type: string
+        id:
+          type: integer
+        last_name:
+          type: string
+        middle_name:
+          type: string
+        modifieddate:
+          type: string
+          format: date-time
+        ssn:
+          type: string
+      required:
+        - createddate
+        - last_name
+        - middle_name
+        - modifieddate
+    EmployerMember:
+      type: object
+      properties:
+        email:
+          type: string
+        employer:
+          $ref: '#/components/schemas/EmployerEmployer'
+        first_name:
+          type: string
+        id:
+          type: integer
+        last_name:
+          type: string
+        system_key:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - employer
+        - id
+        - system_key
+    EmployerVendorMember:
+      type: object
+      properties:
+        key:
+          type: string
+        vendor_tenant:
+          $ref: '#/components/schemas/EmployerVendorTenant'
+      required:
+        - key
+        - vendor_tenant
+    EmployerVendorTenant:
+      type: object
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
+        vendor:
+          $ref: '#/components/schemas/EmployerVendor'
+    EmployerVendor:
+      type: object
+      properties:
+        code:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - code
+        - name
+    EmployerTenant:
+      type: object
+      properties:
+        alegeus_key_enabled:
+          type: boolean
+        id:
+          type: integer
+        name:
+          type: string
+        tenant_id:
+          type: integer
+        vendor_tenants:
+          $ref: '#/components/schemas/EmployerVendorTenant1'
+      required:
+        - name
+        - tenant_id
+        - vendor_tenants
+    EmployerVendorTenant1:
+      type: object
+      properties:
+        id:
+          type: integer
+        key_enabled:
+          type: boolean
+        label:
+          type: string
+        vendor:
+          $ref: '#/components/schemas/EmployerVendor'
+    EmployerHireTermDaterange:
+      type: object
+      properties:
+        bounds:
+          type: string
+        end:
+          type: string
+        start:
+          type: string
     KeyPublicKey:
       type: object
       properties:
@@ -573,37 +810,16 @@ components:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/MemberMember'
+          $ref: '#/components/schemas/EmployerMember'
       required:
         - data
       allOf:
         - $ref: '#/components/schemas/CommonsPageable'
-    MemberMember:
-      type: object
-      properties:
-        email:
-          type: string
-        employer:
-          $ref: '#/components/schemas/EmployerEmployer'
-        first_name:
-          type: string
-        id:
-          type: integer
-        last_name:
-          type: string
-        system_key:
-          type: object
-          additionalProperties:
-            type: string
-      required:
-        - employer
-        - id
-        - system_key
     MemberMemberResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/MemberMember'
+          $ref: '#/components/schemas/EmployerMember'
       required:
         - data
   securitySchemes:
