@@ -1,12 +1,12 @@
 openapi: 3.0.1
 info:
   title: api
-  version: 0.0.15
+  version: 0.0.16
 paths:
   /claims/:
     get:
       description: Return all of the claims for an Employer.
-      operationId: ClaimsService.getAllClaims
+      operationId: ClaimsService.getAll
       tags:
         - ClaimsService
       parameters:
@@ -34,7 +34,7 @@ paths:
   /claims/{claim_medical_id}:
     post:
       description: Return a claim by Claim Medical Id.
-      operationId: ClaimsService.getClaim
+      operationId: ClaimsService.get
       tags:
         - ClaimsService
       parameters:
